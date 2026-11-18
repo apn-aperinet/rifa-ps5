@@ -130,7 +130,7 @@ describe("POST /api/reservar", () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("token");
     expect(res.body.tickets).toEqual([1, 2, 3]);
-    expect(res.body.total).toBe(75);
+    expect(res.body.total).toBe(105);
   });
 
   test("rejeita quando nome está ausente", async () => {
@@ -215,7 +215,7 @@ describe("GET /api/reserva/:token", () => {
       .mockResolvedValueOnce({ rows: [{ pix_key: "22241843000112", pix_name: "Test", pix_link: "", ticket_price: "25.00" }] });
     const res = await request(app).get("/api/reserva/validtoken123");
     expect(res.status).toBe(200);
-    expect(res.body.total).toBe(25);
+    expect(res.body.total).toBe(35);
     expect(res.body.tickets).toHaveLength(1);
   });
 

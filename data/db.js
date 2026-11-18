@@ -37,7 +37,7 @@ async function ensureSchema() {
     process.env.RAFFLE_NAME || "Rifa do Play",
     process.env.PRIZE_DESCRIPTION || "PS5 Slim + GTA VI",
     total,
-    Number(process.env.TICKET_PRICE) || 25.00,
+    Number(process.env.TICKET_PRICE) || 35.00,
     process.env.PIX_KEY || "22241843000112",
     process.env.PIX_NAME || "Igor Allen Bezerra de Magalhaes Ritzmann",
     process.env.PIX_LINK || "",

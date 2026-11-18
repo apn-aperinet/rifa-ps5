@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const PRICE = 25;
+  const PRICE = 35;
   let allTickets = [];
   let selected = new Set();
 

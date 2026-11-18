@@ -121,7 +121,7 @@ app.post("/api/reservar", reserveLimiter, async (req, res) => {
       WHERE number = ANY($5)
     `, [name.trim(), cleanPhone, (email || "").trim() || null, token, tickets]);
     await client.query("COMMIT");
-    res.json({ token, tickets, name: name.trim(), total: tickets.length * 25 });
+    res.json({ token, tickets, name: name.trim(), total: tickets.length * 35 });
   } catch (err) {
     await client.query("ROLLBACK").catch(() => {});
     res.status(500).json({ error: "Falha ao reservar cotas" });
