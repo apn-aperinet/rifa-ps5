@@ -57,6 +57,21 @@
         <div class="stat-chip"><span class="dot dot-paid"></span>${stats.paid} pagas</div>
       `;
 
+      // Progress bar on admin
+      try {
+        const raffle = await fetch("/api/raffle").then(r => r.json());
+        const min = Number(raffle.min_tickets_to_draw) || 0;
+        if (min > 0 && !raffle.winner_ticket) {
+          const pct = Math.min(100, Math.round((stats.paid / min) * 100));
+          $("progressAdmin").style.display = "block";
+          $("progressAdminBar").style.width = pct + "%";
+          $("progressAdminBar").style.background = pct >= 100 ? "linear-gradient(90deg,var(--green),#34d399)" : "linear-gradient(90deg,var(--accent),var(--accent2))";
+          $("progressAdminLabel").textContent = `Mínimo para sortear: ${stats.paid} / ${min} cotas pagas`;
+          $("progressAdminPct").textContent = pct >= 100 ? "✅ Pronto!" : `${pct}%`;
+        }
+      } catch (_) {}
+
+
       renderTable();
     } catch (err) {
       showErr(err.message);
@@ -125,10 +140,11 @@
     $("btnSortear").disabled = true;
     try {
       const loteria = Number($("loteriaInput").value) || undefined;
+      const force = $("chkForceDraw").checked;
       const r = await fetch("/api/admin/sortear", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loteria ? { loteria_number: loteria } : {}),
+        body: JSON.stringify({ ...(loteria ? { loteria_number: loteria } : {}), ...(force ? { force_draw: true } : {}) }),
       });
       const d = await r.json();
       if (!r.ok) throw new Error(d.error);

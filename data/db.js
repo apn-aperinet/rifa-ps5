@@ -30,7 +30,8 @@ async function ensureSchema() {
   await pool.query(`
     UPDATE raffle_config SET
       name = $1, prize_description = $2, total_tickets = $3,
-      ticket_price = $4, pix_key = $5, pix_name = $6, pix_link = $7
+      ticket_price = $4, pix_key = $5, pix_name = $6, pix_link = $7,
+      min_tickets_to_draw = $8
     WHERE id = 1
   `, [
     process.env.RAFFLE_NAME || "Rifa do Play",
@@ -40,6 +41,7 @@ async function ensureSchema() {
     process.env.PIX_KEY || "22241843000112",
     process.env.PIX_NAME || "Igor Allen Bezerra de Magalhaes Ritzmann",
     process.env.PIX_LINK || "",
+    Number(process.env.MIN_TICKETS_TO_DRAW) || 150,
   ]);
 }
 

@@ -202,6 +202,15 @@ app.post("/api/admin/sortear", adminAuth, async (req, res) => {
     );
     if (paid.length === 0) return res.status(400).json({ error: "Nenhuma cota paga para sortear" });
 
+    const minRequired = Number(config[0].min_tickets_to_draw) || 0;
+    if (!req.body.force_draw && paid.length < minRequired) {
+      return res.status(400).json({
+        error: `Mínimo não atingido: ${paid.length} cotas pagas de ${minRequired} necessárias para sortear.`,
+        paid: paid.length,
+        min: minRequired,
+      });
+    }
+
     // Se informou número da Loteria Federal, encontra a cota paga mais próxima
     let winner;
     const loteria = Number(req.body.loteria_number);

@@ -11,8 +11,12 @@ CREATE TABLE IF NOT EXISTS raffle_config (
   winner_phone VARCHAR(20),
   pix_key VARCHAR(200) NOT NULL DEFAULT '22241843000112',
   pix_name VARCHAR(200) NOT NULL DEFAULT 'Igor Allen Bezerra de Magalhaes Ritzmann',
-  pix_link TEXT NOT NULL DEFAULT ''
+  pix_link TEXT NOT NULL DEFAULT '',
+  min_tickets_to_draw INTEGER NOT NULL DEFAULT 150
 );
+
+-- Add column if upgrading from older schema
+ALTER TABLE raffle_config ADD COLUMN IF NOT EXISTS min_tickets_to_draw INTEGER NOT NULL DEFAULT 150;
 
 INSERT INTO raffle_config (id) VALUES (1) ON CONFLICT DO NOTHING;
 

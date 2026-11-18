@@ -22,6 +22,19 @@
   <div class="stat-chip"><span class="dot dot-paid"></span><span id="statPaid">–</span> pagas</div>
 </div>
 
+<div id="progressSection" class="section" style="padding-bottom:0">
+  <div id="progressCard" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-weight:700;font-size:0.9rem">🎯 Progresso para o sorteio</span>
+      <span id="progressLabel" style="font-size:0.85rem;color:var(--muted)"></span>
+    </div>
+    <div style="background:var(--bg3);border-radius:999px;height:14px;overflow:hidden">
+      <div id="progressBar" style="height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.5s;width:0%"></div>
+    </div>
+    <p id="progressMsg" style="font-size:0.78rem;color:var(--muted);margin-top:8px;text-align:center"></p>
+  </div>
+</div>
+
 <div id="winnerBanner" style="display:none" class="section">
   <div class="winner-banner">
     <h2>🏆 Sorteio Realizado!</h2>
