@@ -28,6 +28,7 @@
 
       $("pixAmount").textContent = fmt(data.total);
       $("pixKeyBox").textContent = data.pix_key || "22241843000112";
+      $("reservaId").textContent = token.slice(0, 8).toUpperCase();
       $("ticketsPreview").innerHTML = data.tickets
         .map(t => `<span class="num">${t.number}</span>`)
         .join("");

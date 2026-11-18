@@ -48,8 +48,8 @@
       $("statPaid").textContent  = raffle.stats.paid;
 
       if (raffle.winner_ticket) {
-        $("winnerBanner").style.display = "block";
-        $("winnerInfo").textContent = `Cota #${raffle.winner_ticket} — ${raffle.winner_name}`;
+        $("winnerSection").style.display = "block";
+        $("winnerInfo").textContent = `Cota ${raffle.winner_ticket} — ${raffle.winner_name}`;
       }
 
       const min = Number(raffle.min_tickets_to_draw) || 0;
@@ -57,15 +57,14 @@
       if (min > 0 && !raffle.winner_ticket) {
         const pct = Math.min(100, Math.round((paid / min) * 100));
         const falta = Math.max(0, min - paid);
-        $("progressCard").style.display = "block";
-        $("progressBar").style.width = pct + "%";
-        $("progressBar").style.background = pct >= 100
-          ? "linear-gradient(90deg,var(--green),#34d399)"
-          : "linear-gradient(90deg,var(--accent),var(--accent2))";
-        $("progressLabel").textContent = `${paid} / ${min} pagas (${pct}%)`;
+        $("progressSection").style.display = "block";
+        const bar = $("progressBar");
+        bar.style.width = pct + "%";
+        if (pct >= 100) bar.classList.add("complete");
+        $("progressLabel").textContent = `${paid} de ${min} confirmadas`;
         $("progressMsg").textContent = pct >= 100
-          ? "✅ Mínimo atingido! O sorteio pode ser realizado."
-          : `Faltam ${falta} cota${falta > 1 ? "s" : ""} paga${falta > 1 ? "s" : ""} para garantir o sorteio.`;
+          ? "Mínimo atingido. O sorteio pode ser realizado."
+          : `Faltam ${falta} cota${falta !== 1 ? "s" : ""} confirmada${falta !== 1 ? "s" : ""} para garantir o sorteio.`;
       }
 
       allTickets = tickets;

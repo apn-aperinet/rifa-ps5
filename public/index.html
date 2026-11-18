@@ -3,55 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d0d1a">
-  <title>Rifa do Play</title>
+  <meta name="theme-color" content="#0a0a12">
+  <meta name="description" content="Rifa do Play — PS5 Slim + GTA VI. 200 cotas a R$25.">
+  <title>Rifa do Play — PS5 Slim + GTA VI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="/style.css">
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
 </head>
 <body>
 
 <header>
-  <h1>🎮 Rifa do Play</h1>
-  <p id="prizeDesc">PS5 Slim + GTA VI</p>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="17.5" cy="10.5" r="1" fill="#fff" stroke="none"/><circle cx="17.5" cy="13.5" r="1" fill="#fff" stroke="none"/></svg>
+    </div>
+    <div>
+      <span class="brand-name">Rifa do Play</span>
+      <span class="brand-sub" id="prizeDesc">PS5 Slim + GTA VI</span>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <a href="/verificar.html">Minhas cotas</a>
+  </nav>
 </header>
 
 <div class="stats-bar">
-  <div class="stat-chip"><span class="dot dot-available"></span><span id="statAvail">–</span> disponíveis</div>
-  <div class="stat-chip"><span class="dot dot-reserved"></span><span id="statRes">–</span> reservadas</div>
-  <div class="stat-chip"><span class="dot dot-paid"></span><span id="statPaid">–</span> pagas</div>
-</div>
-
-<div id="progressSection" class="section" style="padding-bottom:0">
-  <div id="progressCard" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-weight:700;font-size:0.9rem">🎯 Progresso para o sorteio</span>
-      <span id="progressLabel" style="font-size:0.85rem;color:var(--muted)"></span>
-    </div>
-    <div style="background:var(--bg3);border-radius:999px;height:14px;overflow:hidden">
-      <div id="progressBar" style="height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.5s;width:0%"></div>
-    </div>
-    <p id="progressMsg" style="font-size:0.78rem;color:var(--muted);margin-top:8px;text-align:center"></p>
+  <div class="stat-item stat-available">
+    <span class="stat-value" id="statAvail">—</span>
+    <span class="stat-label">Disponíveis</span>
+  </div>
+  <div class="stat-item stat-reserved">
+    <span class="stat-value" id="statRes">—</span>
+    <span class="stat-label">Reservadas</span>
+  </div>
+  <div class="stat-item stat-paid">
+    <span class="stat-value" id="statPaid">—</span>
+    <span class="stat-label">Confirmadas</span>
   </div>
 </div>
 
-<div id="winnerBanner" style="display:none" class="section">
-  <div class="winner-banner">
-    <h2>🏆 Sorteio Realizado!</h2>
+<div id="progressSection" class="progress-section" style="display:none">
+  <div class="progress-card">
+    <div class="progress-header">
+      <span class="progress-title">Progresso para o sorteio</span>
+      <span class="progress-count" id="progressLabel"></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <p class="progress-msg" id="progressMsg"></p>
+  </div>
+</div>
+
+<div id="winnerSection" style="display:none" class="section">
+  <div class="winner-card">
+    <div class="trophy">🏆</div>
+    <h2>Sorteio Realizado</h2>
     <p id="winnerInfo"></p>
   </div>
 </div>
 
 <div class="section">
   <div class="legend">
-    <div class="legend-item"><div class="legend-box available"></div> Disponível</div>
-    <div class="legend-item"><div class="legend-box selected"></div> Selecionada</div>
-    <div class="legend-item"><div class="legend-box reserved"></div> Reservada</div>
-    <div class="legend-item"><div class="legend-box paid"></div> Paga</div>
+    <div class="legend-item"><div class="legend-dot ld-available"></div>Disponível</div>
+    <div class="legend-item"><div class="legend-dot ld-selected"></div>Selecionada</div>
+    <div class="legend-item"><div class="legend-dot ld-reserved"></div>Reservada</div>
+    <div class="legend-item"><div class="legend-dot ld-paid"></div>Confirmada</div>
   </div>
 
   <div class="grid-header">
-    <h2>Escolha suas cotas</h2>
+    <span class="grid-title">Escolha suas cotas</span>
     <span class="selected-count" id="selCount"></span>
   </div>
 
@@ -60,32 +83,40 @@
   </div>
 
   <div id="formSection" style="display:none">
-    <h3>Seus dados</h3>
-    <div id="selectedPreview" class="selected-preview">Nenhuma cota selecionada</div>
-    <div class="form-group">
-      <label>Nome completo *</label>
-      <input id="inputName" type="text" placeholder="Seu nome" autocomplete="name">
+    <div class="form-card">
+      <div class="form-card-title">Seus dados</div>
+
+      <div id="selectedPreview" class="selected-preview">
+        <span class="empty-hint">Nenhuma cota selecionada</span>
+      </div>
+
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input id="inputName" type="text" placeholder="Seu nome completo" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label>WhatsApp</label>
+        <input id="inputPhone" type="tel" placeholder="(99) 99999-9999" autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label>E-mail <span style="color:var(--muted);font-weight:400;text-transform:none">(opcional)</span></label>
+        <input id="inputEmail" type="email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+
+      <div class="total-row">
+        <span class="total-label">Total a pagar</span>
+        <span class="total-amount" id="totalAmount">R$ 0,00</span>
+      </div>
+
+      <div id="formError" class="alert alert-error" style="display:none"></div>
+      <button class="btn btn-primary" id="btnReservar">Reservar e pagar via PIX</button>
     </div>
-    <div class="form-group">
-      <label>WhatsApp *</label>
-      <input id="inputPhone" type="tel" placeholder="(99) 99999-9999" autocomplete="tel">
-    </div>
-    <div class="form-group">
-      <label>E-mail (opcional)</label>
-      <input id="inputEmail" type="email" placeholder="seu@email.com" autocomplete="email">
-    </div>
-    <div class="total-line">
-      <span>Total</span>
-      <span class="amount" id="totalAmount">R$ 0,00</span>
-    </div>
-    <div id="formError" class="alert alert-error" style="display:none"></div>
-    <button class="btn btn-primary" id="btnReservar">🛒 Reservar cotas e ver PIX</button>
   </div>
 </div>
 
-<div class="nav-links">
-  <a href="/verificar.html">🔍 Minhas cotas</a>
-  <a href="/admin.html">🔐 Admin</a>
+<div class="footer-nav">
+  <a href="/verificar.html">Consultar minhas cotas</a>
+  <a href="/admin.html">Área restrita</a>
 </div>
 
 <script src="/app.js"></script>

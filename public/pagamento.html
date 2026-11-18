@@ -3,60 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d0d1a">
+  <meta name="theme-color" content="#0a0a12">
   <title>Pagamento — Rifa do Play</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="/style.css">
   <link rel="manifest" href="/manifest.json">
 </head>
 <body>
 
 <header>
-  <h1>🎮 Rifa do Play</h1>
-  <p>Pagamento via PIX</p>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="17.5" cy="10.5" r="1" fill="#fff" stroke="none"/><circle cx="17.5" cy="13.5" r="1" fill="#fff" stroke="none"/></svg>
+    </div>
+    <div>
+      <span class="brand-name">Rifa do Play</span>
+      <span class="brand-sub">Pagamento</span>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <a href="/">Início</a>
+  </nav>
 </header>
 
 <div class="section">
   <div id="loading"><div class="spinner"></div></div>
+
   <div id="content" style="display:none">
-    <p class="page-title">Pague e confirme sua reserva</p>
-    <p class="page-sub">Suas cotas ficam reservadas por <strong>24 horas</strong>. Após o pagamento, confirmaremos manualmente.</p>
+    <div style="margin-bottom:20px">
+      <div class="page-title">Efetue o pagamento</div>
+      <p class="page-sub">Suas cotas ficam reservadas por 24 horas. O pagamento é confirmado manualmente.</p>
+    </div>
 
     <div id="alertBox" class="alert alert-info" style="display:none"></div>
 
     <div class="pix-card">
-      <p style="color:var(--muted);font-size:0.85rem">Valor total</p>
-      <div class="pix-amount" id="pixAmount">R$ 0,00</div>
-      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">Suas cotas</p>
-      <div class="tickets-preview" id="ticketsPreview"></div>
-      <p style="font-size:0.85rem;color:var(--muted);margin:16px 0 6px">Chave PIX (clique para copiar)</p>
-      <div class="pix-key-box" id="pixKeyBox" onclick="copyKey()">22241843000112</div>
-      <p class="copy-hint" id="copyHint">Toque para copiar</p>
-      <a id="pixLink" href="#" class="btn btn-gold" style="margin-top:14px;display:none" target="_blank" rel="noopener">
-        💸 Abrir link de pagamento Nubank
-      </a>
+      <div class="pix-card-header">
+        <span>Resumo da reserva</span>
+        <span id="reservaId" style="font-family:monospace;font-size:0.7rem;color:var(--muted)"></span>
+      </div>
+      <div class="pix-card-body">
+        <div class="pix-amount-label">Valor total</div>
+        <div class="pix-amount" id="pixAmount">R$ 0,00</div>
+        <div class="tickets-row" id="ticketsPreview"></div>
+
+        <div class="pix-key-wrapper">
+          <div class="pix-key-label">Chave PIX — clique para copiar</div>
+          <div class="pix-key-box" id="pixKeyBox" onclick="copyKey()"></div>
+          <div class="copy-hint" id="copyHint">Toque para copiar</div>
+        </div>
+
+        <a id="pixLink" href="#" class="btn btn-gold" style="margin-top:16px;display:none" target="_blank" rel="noopener">
+          Abrir link de pagamento Nubank
+        </a>
+      </div>
     </div>
 
-    <div class="info-box">
-      <strong>Como pagar:</strong><br>
-      1. Copie a chave PIX acima (ou use o link Nubank)<br>
-      2. Abra o app do seu banco e faça o PIX<br>
-      3. Envie o comprovante no WhatsApp: <a id="whatsappLink" href="#">clique aqui</a><br>
-      4. Aguarde a confirmação — suas cotas ficam salvas por 24h
+    <div class="info-block">
+      <div class="info-block-title">Como pagar</div>
+      <ol>
+        <li>Copie a chave PIX acima ou use o link Nubank</li>
+        <li>Abra o app do seu banco e realize o PIX</li>
+        <li>Envie o comprovante para confirmar: <a id="whatsappLink" href="#">clique aqui para WhatsApp</a></li>
+        <li>Aguarde a confirmação — suas cotas ficam salvas por 24 horas</li>
+      </ol>
     </div>
 
-    <div class="info-box">
-      <strong>Resumo da reserva:</strong><br>
-      Nome: <span id="buyerName"></span><br>
-      WhatsApp: <span id="buyerPhone"></span><br>
-      Reservado em: <span id="reservedAt"></span>
+    <div class="info-block">
+      <div class="info-block-title">Dados da reserva</div>
+      <p><strong>Nome:</strong> <span id="buyerName"></span></p>
+      <p><strong>WhatsApp:</strong> <span id="buyerPhone"></span></p>
+      <p><strong>Reservado em:</strong> <span id="reservedAt"></span></p>
     </div>
 
-    <a href="/verificar.html" class="btn btn-secondary" style="margin-top:8px">🔍 Consultar minhas cotas</a>
+    <a href="/verificar.html" class="btn btn-secondary" style="margin-top:4px">Consultar minhas cotas</a>
   </div>
 </div>
 
-<div class="nav-links">
-  <a href="/">← Voltar ao início</a>
+<div class="footer-nav">
+  <a href="/">Voltar ao início</a>
 </div>
 
 <script src="/pagamento.js"></script>
