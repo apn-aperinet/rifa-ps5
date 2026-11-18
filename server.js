@@ -8,6 +8,14 @@ const crypto = require("crypto");
 const path = require("path");
 const { pool, ensureSchema } = require("./data/db");
 
+// Validation helpers
+function isValidTicketNumber(n) {
+  return Number.isInteger(n) && n >= 1 && n <= 200;
+}
+function isValidAdminNumber(n) {
+  return Number.isInteger(n) && n >= 1 && n <= 200;
+}
+
 const app = express();
 const PORT = Number(process.env.PORT) || 3002;
 const IS_DEV = process.env.NODE_ENV !== "production";
@@ -33,8 +41,9 @@ app.use((req, res, next) => {
   next();
 });
 
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 60 });
-const reserveLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10 });
+const IS_TEST = process.env.NODE_ENV === "test";
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 60, skip: () => IS_TEST });
+const reserveLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10, skip: () => IS_TEST });
 app.use("/api/", limiter);
 
 // Expire reservations older than 24h
@@ -82,10 +91,14 @@ app.get("/api/tickets", async (req, res) => {
 app.post("/api/reservar", reserveLimiter, async (req, res) => {
   await expireReservations();
   const { name, phone, email, tickets } = req.body;
-  if (!name || !phone || !Array.isArray(tickets) || tickets.length === 0) {
+  if (!name || typeof name !== "string" || !phone || !Array.isArray(tickets) || tickets.length === 0) {
     return res.status(400).json({ error: "Preencha nome, telefone e selecione ao menos uma cota" });
   }
+  if (name.trim().length > 200) return res.status(400).json({ error: "Nome muito longo" });
   if (tickets.length > 20) return res.status(400).json({ error: "Máximo de 20 cotas por reserva" });
+  if (!tickets.every(isValidTicketNumber)) {
+    return res.status(400).json({ error: "Número de cota inválido" });
+  }
   const cleanPhone = phone.replace(/\D/g, "");
   if (cleanPhone.length < 10) return res.status(400).json({ error: "Telefone inválido" });
 
@@ -168,6 +181,7 @@ app.get("/api/admin/tickets", adminAuth, async (req, res) => {
 
 app.post("/api/admin/tickets/:number/pagar", adminAuth, async (req, res) => {
   const number = Number(req.params.number);
+  if (!isValidAdminNumber(number)) return res.status(400).json({ error: "Número de cota inválido" });
   try {
     const { rowCount } = await pool.query(
       "UPDATE tickets SET status='paid', paid_at=now() WHERE number=$1 AND status='reserved'",
@@ -180,6 +194,7 @@ app.post("/api/admin/tickets/:number/pagar", adminAuth, async (req, res) => {
 
 app.post("/api/admin/tickets/:number/cancelar", adminAuth, async (req, res) => {
   const number = Number(req.params.number);
+  if (!isValidAdminNumber(number)) return res.status(400).json({ error: "Número de cota inválido" });
   try {
     const { rowCount } = await pool.query(
       `UPDATE tickets SET status='available', buyer_name=NULL, buyer_phone=NULL,
@@ -233,6 +248,7 @@ app.post("/api/admin/sortear", adminAuth, async (req, res) => {
 
 app.post("/api/admin/tickets/:number/nota", adminAuth, async (req, res) => {
   const number = Number(req.params.number);
+  if (!isValidAdminNumber(number)) return res.status(400).json({ error: "Número de cota inválido" });
   const notes = String(req.body.notes || "").slice(0, 300);
   try {
     await pool.query("UPDATE tickets SET notes=$1 WHERE number=$2", [notes, number]);
@@ -244,11 +260,15 @@ app.post("/api/admin/tickets/:number/nota", adminAuth, async (req, res) => {
 // START
 // ══════════════════════════════════════════════════════════════════════════
 
-ensureSchema()
-  .then(() => {
-    app.listen(PORT, () => console.log(`Rifa do Play rodando em http://localhost:${PORT}`));
-  })
-  .catch((err) => {
-    console.error("Falha ao iniciar:", err);
-    process.exit(1);
-  });
+module.exports = { app };
+
+if (require.main === module) {
+  ensureSchema()
+    .then(() => {
+      app.listen(PORT, () => console.log(`Rifa do Play rodando em http://localhost:${PORT}`));
+    })
+    .catch((err) => {
+      console.error("Falha ao iniciar:", err);
+      process.exit(1);
+    });
+}

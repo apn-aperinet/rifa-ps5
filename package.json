@@ -2,7 +2,16 @@
   "name": "rifa-do-play",
   "version": "1.0.0",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-pg-simple": "^9.0.1",
@@ -11,5 +20,10 @@
     "express-rate-limit": "^7.1.5",
     "express-session": "^1.17.3",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }
