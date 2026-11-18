@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d0d1a">
+  <title>Minhas Cotas — Rifa do Play</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<header>
+  <h1>🎮 Rifa do Play</h1>
+  <p>Consultar minhas cotas</p>
+</header>
+
+<div class="section">
+  <p class="page-title">Minhas cotas</p>
+  <p class="page-sub">Digite seu WhatsApp para ver suas cotas.</p>
+
+  <div class="form-group" style="display:flex;gap:8px">
+    <input id="phoneInput" type="tel" placeholder="(99) 99999-9999" style="flex:1" autocomplete="tel">
+    <button class="btn btn-primary" id="btnBuscar" style="width:auto;padding:10px 18px">Buscar</button>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<div class="nav-links">
+  <a href="/">← Voltar ao início</a>
+</div>
+
+<script src="/verificar.js"></script>
+</body>
+</html>

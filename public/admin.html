@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d0d1a">
+  <title>Admin — Rifa do Play</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header>
+  <h1>🎮 Rifa do Play</h1>
+  <p>Painel Admin</p>
+</header>
+
+<!-- Login form -->
+<div class="section" id="loginSection">
+  <p class="page-title">Acesso Admin</p>
+  <p class="page-sub">Digite a senha para entrar.</p>
+  <div class="form-group">
+    <label>Senha</label>
+    <input id="loginPass" type="password" placeholder="Senha">
+  </div>
+  <div id="loginError" class="alert alert-error" style="display:none"></div>
+  <button class="btn btn-primary" id="btnLogin">Entrar</button>
+</div>
+
+<!-- Dashboard -->
+<div class="section" id="dashSection" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <span class="page-title">Cotas</span>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-sm btn-secondary" id="btnRefresh">🔄 Atualizar</button>
+      <button class="btn btn-sm btn-red" id="btnLogout">Sair</button>
+    </div>
+  </div>
+
+  <div id="statsRow" class="stats-bar" style="justify-content:flex-start;padding:0;margin-bottom:16px"></div>
+
+  <div id="winnerBannerAdmin" style="display:none" class="winner-banner" style="margin-bottom:16px">
+    <h2>🏆 Sorteio Realizado!</h2>
+    <p id="winnerInfoAdmin"></p>
+  </div>
+
+  <!-- Sortear -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:20px">
+    <strong style="display:block;margin-bottom:10px">🎲 Realizar Sorteio</strong>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="loteriaInput" type="number" min="1" max="200" placeholder="Nº Loteria Federal (opcional)" style="flex:1;min-width:200px">
+      <button class="btn btn-gold" id="btnSortear">Sortear agora</button>
+    </div>
+    <p style="font-size:0.78rem;color:var(--muted);margin-top:8px">
+      Se informar um número da Loteria Federal, a cota paga mais próxima será a vencedora. Sem número: sorteio aleatório entre cotas pagas.
+    </p>
+  </div>
+
+  <!-- Filter / search -->
+  <div class="admin-toolbar">
+    <input id="searchInput" type="text" placeholder="Buscar por nome, fone ou número da cota...">
+    <select id="filterStatus">
+      <option value="">Todos</option>
+      <option value="available">Disponível</option>
+      <option value="reserved">Reservada</option>
+      <option value="paid">Paga</option>
+    </select>
+  </div>
+
+  <div id="adminError" class="alert alert-error" style="display:none"></div>
+  <div id="adminSuccess" class="alert alert-success" style="display:none"></div>
+
+  <div style="overflow-x:auto">
+    <table id="ticketTable">
+      <thead>
+        <tr>
+          <th>Nº</th>
+          <th>Status</th>
+          <th>Nome</th>
+          <th>WhatsApp</th>
+          <th>Reservado</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="ticketTbody">
+        <tr><td colspan="6"><div class="spinner"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="/">← Ir para a rifa</a>
+</div>
+
+<script src="/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d0d1a">
+  <title>Pagamento — Rifa do Play</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<header>
+  <h1>🎮 Rifa do Play</h1>
+  <p>Pagamento via PIX</p>
+</header>
+
+<div class="section">
+  <div id="loading"><div class="spinner"></div></div>
+  <div id="content" style="display:none">
+    <p class="page-title">Pague e confirme sua reserva</p>
+    <p class="page-sub">Suas cotas ficam reservadas por <strong>24 horas</strong>. Após o pagamento, confirmaremos manualmente.</p>
+
+    <div id="alertBox" class="alert alert-info" style="display:none"></div>
+
+    <div class="pix-card">
+      <p style="color:var(--muted);font-size:0.85rem">Valor total</p>
+      <div class="pix-amount" id="pixAmount">R$ 0,00</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px">Suas cotas</p>
+      <div class="tickets-preview" id="ticketsPreview"></div>
+      <p style="font-size:0.85rem;color:var(--muted);margin:16px 0 6px">Chave PIX (clique para copiar)</p>
+      <div class="pix-key-box" id="pixKeyBox" onclick="copyKey()">22241843000112</div>
+      <p class="copy-hint" id="copyHint">Toque para copiar</p>
+      <a id="pixLink" href="#" class="btn btn-gold" style="margin-top:14px;display:none" target="_blank" rel="noopener">
+        💸 Abrir link de pagamento Nubank
+      </a>
+    </div>
+
+    <div class="info-box">
+      <strong>Como pagar:</strong><br>
+      1. Copie a chave PIX acima (ou use o link Nubank)<br>
+      2. Abra o app do seu banco e faça o PIX<br>
+      3. Envie o comprovante no WhatsApp: <a id="whatsappLink" href="#">clique aqui</a><br>
+      4. Aguarde a confirmação — suas cotas ficam salvas por 24h
+    </div>
+
+    <div class="info-box">
+      <strong>Resumo da reserva:</strong><br>
+      Nome: <span id="buyerName"></span><br>
+      WhatsApp: <span id="buyerPhone"></span><br>
+      Reservado em: <span id="reservedAt"></span>
+    </div>
+
+    <a href="/verificar.html" class="btn btn-secondary" style="margin-top:8px">🔍 Consultar minhas cotas</a>
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="/">← Voltar ao início</a>
+</div>
+
+<script src="/pagamento.js"></script>
+</body>
+</html>
